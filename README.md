@@ -139,11 +139,6 @@ pnpm run test:coverage  # 90% gate
 pnpm run lint
 ```
 
-## Read the write-up
-
-"Retries are a feature until your tool charges the customer twice: two-layer idempotency
-for MCP tool calls." - **[LinkedIn article link TBD](#)**
-
 ## License
 
 MIT
