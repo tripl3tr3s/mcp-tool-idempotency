@@ -1,0 +1,64 @@
+{
+  "name": "mcp-tool-idempotency",
+  "version": "0.1.0",
+  "description": "Exactly-once execution for MCP tool calls (or any costly async op) via a two-layer idempotency store. Pluggable backend; MemoryBackend needs no infra.",
+  "keywords": [
+    "mcp",
+    "idempotency",
+    "exactly-once",
+    "deduplication",
+    "retry",
+    "tool-use",
+    "llm",
+    "postgres",
+    "typescript"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "migrations"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "example": "tsx examples/charge-once.ts",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/node": "^22.13.0",
+    "@vitest/coverage-v8": "^3.0.5",
+    "eslint": "^9.19.0",
+    "prettier": "^3.4.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.64.0",
+    "vitest": "^3.0.5"
+  },
+  "packageManager": "pnpm@10.33.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
