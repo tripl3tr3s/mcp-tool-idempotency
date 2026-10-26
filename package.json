@@ -1,11 +1,11 @@
 {
   "name": "mcp-tool-idempotency",
-  "version": "0.1.0",
-  "description": "Exactly-once execution for MCP tool calls (or any costly async op) via a two-layer idempotency store. Pluggable backend; MemoryBackend needs no infra.",
+  "version": "0.2.0",
+  "description": "Idempotency for MCP tool calls (or any costly async op): one live holder per key across instances, replayed results, and an opt-in uncertain state. Pluggable backend; MemoryBackend needs no infra.",
   "keywords": [
     "mcp",
     "idempotency",
-    "exactly-once",
+    "at-most-once",
     "deduplication",
     "retry",
     "tool-use",
