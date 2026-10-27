@@ -109,6 +109,11 @@ pnpm example
 Leases compare epoch-millisecond timestamps written by different machines, so keep clock
 drift between instances well under `leaseMs` (NTP is plenty for the 60s default).
 
+The lease is renewed by a timer on the event loop. A CPU-bound executor that blocks the loop
+for longer than `leaseMs` cannot renew, so another instance may take the key over while the
+first one is still running. Set `leaseMs` above the worst-case block, or move heavy work to a
+worker thread.
+
 **What the library cannot know:** whether your side effect committed before the executor
 threw or the process died. By default both cases are retried, which is **at-least-once in
 that window**:
