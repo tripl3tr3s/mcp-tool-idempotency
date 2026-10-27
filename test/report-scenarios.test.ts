@@ -93,6 +93,7 @@ describe.each(backends)('report scenarios: %s', (_name, make) => {
         createIdempotencyStore(backend).execute('order-123', META, executor)
       ).rejects.toBeInstanceOf(IdempotencyInFlightError);
       expect(executor).not.toHaveBeenCalled();
+      expect((await backend.check('order-123'))?.owner).toBe('dead-process');
     });
 
     it('the heartbeat keeps a slow holder live past leaseMs', async () => {
@@ -213,6 +214,26 @@ describe.each(backends)('report scenarios: %s', (_name, make) => {
       const executor = vi.fn((ctx: { key: string; owner: string }) => Promise.resolve(ctx.key));
       expect(await store.execute('order-123', META, executor)).toBe('order-123');
       expect(executor.mock.calls[0]?.[0].owner).toEqual(expect.any(String));
+    });
+  });
+
+  describe('TTL boundary', () => {
+    it('replays inside ttlMs and re-runs once the result expires', async () => {
+      vi.useFakeTimers();
+      const store = createIdempotencyStore(make(), { ttlMs: 1_000 });
+      let charges = 0;
+      const executor = () => {
+        charges += 1;
+        return Promise.resolve({ n: charges });
+      };
+
+      expect(await store.execute('order-123', META, executor)).toEqual({ n: 1 });
+      await vi.advanceTimersByTimeAsync(999);
+      expect(await store.execute('order-123', META, executor)).toEqual({ n: 1 });
+
+      await vi.advanceTimersByTimeAsync(2);
+      expect(await store.execute('order-123', META, executor)).toEqual({ n: 2 });
+      expect(charges).toBe(2);
     });
   });
 
