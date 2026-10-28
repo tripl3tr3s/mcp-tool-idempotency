@@ -30,4 +30,5 @@ once a fix ships, and to credit reporters who want it.
   holder was still alive, and a key reused with a different request replayed the first
   request's result. 0.2.0 adds owner tokens, renewing leases, owner-gated writes, an
   opt-in `uncertain` state and request conflict detection. Reported privately in
-  October 2026 by Igor (Argus agent test lab), who also verified the fix independently.
+  October 2026 by Igor (Argus agent test lab), who also verified the fix independently:
+  [verification note](https://gist.github.com/igor-vii/9ea3f09a18e50b2bb590123b1134902b).
