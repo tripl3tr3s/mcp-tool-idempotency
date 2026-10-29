@@ -5,7 +5,6 @@
   "keywords": [
     "mcp",
     "idempotency",
-    "at-most-once",
     "deduplication",
     "retry",
     "tool-use",
